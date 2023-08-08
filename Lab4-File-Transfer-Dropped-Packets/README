@@ -1,0 +1,58 @@
+Name: Aaron Post
+Course: CSE 3461
+Date: 7-24-2023
+Instructions:
+
+First place any test images/files in the client_files directory in my lab folder.
+
+Then establish four SSH connections.
+Two should be on one system, and the other two should be a different one.
+Example:
+ssh post.194@cse-sl1.coeit.osu.edu    # 1 - Client
+ssh post.194@cse-sl1.coeit.osu.edu    # 2 - Client Troll
+ssh post.194@cse-sl2.coeit.osu.edu    # 3 - Server
+ssh post.194@cse-sl2.coeit.osu.edu    # 3 - Server Troll
+
+First run this command on ssh connection #1 and #3 to find the ip addresses
+hostname -I
+Note these ip addresses.
+
+Now navigate to my lab folder on all ssh connections.
+
+Note: these are identical to the lab directions in case I've made a small typo. 
+TLDR; My client port is 31295. Your file name is just the name of the file within the server_files
+directory i.e. "1.jpg".
+
+Instructions:
+
+Run this command on ssh connection #3 (server)
+python3 ftps.py <server-port> <troll-port-server>
+*note, you pick the server port and troll port. it can be anything, just be consistent.*
+
+Run this command on ssh connection #2 (client troll)
+troll -C <client-ip-address> -S <server-ip-address> -a 31295 -b <server-port> -r -s 1 -t -x 0 <troll-port>
+*Use ip addresses from before. The server port should be the same as the step before. 
+The troll port can be anything, but be consistent. If the client port 31295 is busy you may
+have to make a change to ftpc.py (change the localport field at top of file).*
+
+Run this command on ssh connection #4 (server troll)
+troll -C <IP-address-of-server> -S <IP-address-of-client> -a <server-port>
+  -b <client-port> <troll-port-server> -t -x 20
+
+Fyi, Troll port should be different from the other troll port for the client.
+
+Run this command on ssh connection #3 (client)
+python3 ftpc.py <IP-address-server> <server-port> <troll-port-client> <local-file-name>
+*Use info from before*
+
+Note: Your file name should be the name of a file within the server_files directory. No path necessary.
+You should append any necessary extensions as well for the file type, ie. "1.jpg" *
+
+The file transfer protocol should automatically begin and you should see activity in troll. A message will
+appear in the server that indicates the file has finished writing to the disk. You can then check that it is
+identical to the original file using diff.
+
+Notes:
+I've found STDLinux to be a bit finnicky about the files appearing but my code absolutely
+works as intended. You just may need to go back and forth from the server_files directory
+to get the file to appear.

@@ -1,0 +1,14 @@
+Name: Aaron Post
+Course: CSE 3461
+Date: 5-23-2023
+Instructions:
+
+Run "python3 copy.py <name of image, including file extension>"
+E.g. "python3 copy.py 1.jpg"
+
+Notes:
+
+The recv directory does not need to exist. The copy.py program will create it if it doesn't exist.
+You must provide exactly one argument of a file that exists in the local directory. If you provide
+more or less than one argument or provide an invalid file name/path, a message will print and the 
+program will terminate. 

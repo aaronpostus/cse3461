@@ -1,0 +1,54 @@
+Name: Aaron Post
+Course: CSE 3461
+Date: 7-7-2023
+Instructions:
+
+First place any test images/files in the client_files directory in my lab folder.
+
+Then establish three SSH connections.
+Two should be on one system, and the other should be a different one.
+Example:
+ssh post.194@cse-sl1.coeit.osu.edu    # 1 - Client
+ssh post.194@cse-sl1.coeit.osu.edu    # 2 - Troll
+ssh post.194@cse-sl2.coeit.osu.edu    # 3 - Server
+
+First run this command on ssh connection #1 and #3 to find the ip addresses
+hostname -I
+Note these ip addresses.
+
+Now navigate to my lab folder on all systems.
+
+Run this command on ssh connection #3 (server)
+python3 ftps.py <server-port>
+*note, you pick the server port. it can be anything, just be consistent.*
+
+Run this command on ssh connection #2 (troll)
+troll -C <client-ip-address> -S <server-ip-address> -a 31295 -b <server-port> -r -s 1 -t -x 0 <troll-port>
+*Use ip addresses from before. The server port should be the same as the step before. 
+The troll port can be anything, but be consistent. If the client port 31295 is busy you may
+have to make a change to ftpc.py (change the localport field at top of file).*
+
+Run this command on ssh connection #3 (client)
+python3 ftpc.py <client-ip-address> <server-port> <troll-port> <file>
+*Use client ip address and the server port from before. 
+Troll port should be the same as the previous step as well.
+Note: Your file name should be the name of a file within the server_files directory. No path necessary.
+You should append any necessary extensions as well for the file type, ie. "1.jpg" *
+
+The file transfer protocol should automatically begin and you should see activity in troll. A message will
+appear in the server that indicates the file has finished writing to the disk. You can then check that it is
+identical to the original file using diff.
+
+
+Sample (tested) commands:
+# call this on your system 2 connection
+python3 ftps.py 24718
+# call this on one of your system 1 connections   
+troll -C 10.128.100.10 -S 10.128.100.11 -a 31295 -b 24718 -r -s 1 -t -x 0 42718
+# call this on the other system 1 connection  
+python3 ftpc.py 10.128.100.11 24718 42718 1.jpg 
+
+Notes:
+I've found STDLinux to be a bit finnicky about the files appearing but my code absolutely
+works as intended. You just may need to go back and forth from the server_files directory
+to get the file to appear.
