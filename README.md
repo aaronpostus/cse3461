@@ -1,5 +1,6 @@
 # CSE 3461 - Computer Networking
 This repository houses four labs I made for Dr. Adam Champion's computer networking course.
+
 Lab 1: File Transfer
 This lab was focused on setting up the functionality for reading a file in small segments and then writing to a destination file one segment at a time.
 It was good practice for later labs since we already had a program that could read data in packet-sized chunks even though this program did not transmit data over the internet.
